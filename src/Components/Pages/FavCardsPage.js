@@ -3,15 +3,15 @@ import {CardsRender} from "../Cards/CardsRender";
 import {initialCards} from "../../Data/defaultCards.js";
 import axios from "axios";
 
-export function CardsPage() {
+export function FavCardsPage() {
     const [cards,setUCards] = useState(null);
     const [isLoading,setLoading] = useState(true);
 
     useEffect(() => {
-            axios.get('http://localhost:8181/cards').then(response => {
-                setUCards(response.data);
-                setLoading(false);
-            }).catch (error => console.log(error));
+        axios.get('http://localhost:8181/cards').then(response => {
+            setUCards(response.data);
+            setLoading(false);
+        }).catch (error => console.log(error));
     },[]);
     if (isLoading) {
         return <div className="App"></div>;

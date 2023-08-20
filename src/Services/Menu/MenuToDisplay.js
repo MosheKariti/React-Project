@@ -1,9 +1,9 @@
 import { businessMenu, guestMenu, simpleMenu } from "./MenusHandler";
 export function MenuToDisplay(loggedInUser) {
     if (loggedInUser) {
-        if (loggedInUser.type === 'simple') {
+        if (!loggedInUser.isBusiness) {
             return simpleMenu;
-        } else if (loggedInUser.type === 'business') {
+        } else if (loggedInUser.isBusiness) {
             return businessMenu;
         }
     }  else {

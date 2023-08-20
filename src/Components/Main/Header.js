@@ -4,6 +4,7 @@ import "../../Styles/Style.css"
 
 
 export function Header({path, setPath, menu , setMenu, loggedInUser, setLoggedInUser}) {
+
     return (
         <>
             <div style={{backgroundColor:'rgba(33,52,50,0.28)'}}>

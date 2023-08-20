@@ -10,13 +10,13 @@ import { BiSolidRegistered } from "react-icons/bi"
 import { NewUserValidator } from "../../Services/Users/NewUserValidator";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import {validPassword} from "./Regex";
-import axios from "axios";
 import {createUser} from "../../Services/Axios/axios";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const defaultTheme = createTheme();
-export function Registration({setPath}) {
+export function Registration() {
     const navigate = useNavigate();
     const [isBusiness,setBusiness] = useState(false);
     const [isNameError,setIsNameError] = useState(false);
@@ -35,39 +35,13 @@ export function Registration({setPath}) {
         } else {
             toast.error('Registration Failed');
         }
-
-        // function saveToServer(user) {
-        //     useEffect(() => {
-        //         axios.post('http://localhost:8181/users', {
-        //             name: {
-        //                 first: user.name.first,
-        //                 middle: user.name.middle,
-        //                 last: user.name.last
-        //             },
-        //             phone: user.phone,
-        //             email: user.email,
-        //             password: user.password,
-        //             image: {
-        //                 url: user.image,
-        //                 alt: 'business image'
-        //             },
-        //             address: {
-        //                 state: user.address.state,
-        //                 country: user.address.country,
-        //                 city: user.address.city,
-        //                 street: user.address.street,
-        //                 houseNumber: user.address.houseNumber,
-        //                 zip: user.address.zip
-        //             },
-        //             isBusiness: false
-        //         })
-        //             .then(function (response) {
-        //                 console.log(response);
-        //             })
-        //             .catch(function (error) {
-        //                 console.log(error);
-        //             })},[]);
-        // }
+    }
+    const formColumnsStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        marginRight: '20px', // Adjust spacing between columns
+        maxWidth:'450px',
+        flex: 1,
     }
     return (
         <>
@@ -84,52 +58,59 @@ export function Registration({setPath}) {
             pauseOnHover
             theme="dark"
         />
-        <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="xs">
+        <ThemeProvider theme={defaultTheme} style={{}}>
+            <Container component="main" maxWidth="xl">
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 3,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
-                    <BiSolidRegistered size={50} style={{ margin:"2", marginTop:"5" }} />
-                    <Typography component="h1" variant="h5" mt={1}>
+                    <BiSolidRegistered size={50} style={{ margin:"2", marginTop:"5"}} />
+                    <Typography component="h1" variant="h5" mt={1} style={{marginBottom:'30px'}} >
                         Registration
                     </Typography>
-                    <Box component={"form"} onSubmit={handleRegister} noValidate sx={{ mt: 1 }}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="firstName"
-                            label="First Name"
-                            type="text"
-                            id="firstName"
-                            style={{marginBottom:'0'}}
-                            error={isNameError}
-                        />
-                        {isNameError && <span className={"text-danger m-lg-3"}>'first' length must be at least 2 characters long</span>}
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            name="middleName"
-                            label="Middle Name"
-                            type="text"
-                            id="middleName"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="lastName"
-                            label="Last Name"
-                            type="text"
-                            id="lastName"
-                            autoFocus
-                        />
+                    <Box
+                        component={"form"}
+                        noValidate
+                        sx={{ mt: 2 ,'& .MuiTextField-root': { mt: 2, mb:0, width: '50ch' }}}
+                        onSubmit={handleRegister}
+                    >
+                        <div style={{display:'flex'}}>
+                        <div style={formColumnsStyle}>
+                            <TextField
+                                autoFocus
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="firstName"
+                                label="First Name"
+                                type="text"
+                                id="firstName"
+                                error={isNameError}
+                                // helperText={'first length must be at least 2 characters long'}
+                            />
+                            {isNameError && <label className={"text-danger mt-0"}>first length must be at least 2 characters long</label>}
+                            <TextField
+                                margin="normal"
+                                fullWidth
+                                name="middleName"
+                                label="Middle Name"
+                                type="text"
+                                id="middleName"
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="lastName"
+                                label="Last Name"
+                                type="text"
+                                id="lastName"
+                            />
+
                         <TextField
                             margin="normal"
                             required
@@ -138,10 +119,9 @@ export function Registration({setPath}) {
                             label="Phone"
                             type="number"
                             id="phone"
-                            style={{marginBottom:'0'}}
                             error={isPhoneError}
                         />
-                        {isPhoneError && <span className={"text-danger m-lg-3"}>user 'phone' must be a valid phone number</span>}
+                        {isPhoneError && <label className={"text-danger mt-0"}>user 'phone' must be a valid phone number</label>}
                         <TextField
                             margin="normal"
                             required
@@ -150,31 +130,20 @@ export function Registration({setPath}) {
                             label="Email"
                             type="email"
                             id="email"
-                            style={{marginBottom:'0'}}
                             error={isEmailError}
                         />
-                        {isEmailError && <span className={"text-danger m-lg-3"}>user 'mail must be a valid mail</span>}
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="text"
-                            id="password"
-                            style={{marginBottom:'0'}}
-                            error={isPasswordError}
-                        />
-                        {isPasswordError && <span className={"text-danger m-lg-3"}>user 'password' must be at least nine characters long and contain an uppercase letter,a lowercase letter, a number and one of the following characters !@#$%^&*-</span>}
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            name="image"
-                            label="Image"
-                            type="text"
-                            id="image"
-                            autoFocus
-                        />
+                        {isEmailError && <label className={"text-danger mt-0"}>user 'mail must be a valid mail</label>}
+                            <TextField
+                                margin="normal"
+                                fullWidth
+                                name="image"
+                                label="Image"
+                                type="text"
+                                id="image"
+                            />
+                        </div>
+                        <div style={formColumnsStyle}>
+
                         <TextField
                             margin="normal"
                             fullWidth
@@ -219,31 +188,51 @@ export function Registration({setPath}) {
                             type="number"
                             id="houseNumber"
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="zip"
-                            label="Zip"
-                            type="number"
-                            id="zip"
-                        />
-                        <Checkbox
-                            color="primary"
-                            inputProps={{ 'aria-label': 'primary checkbox' }}
-                            onChange={()=>setBusiness(!isBusiness)}
-                        />
-                        <span>Register as business</span>
-
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt:3 , mb:2 }}
-                        >
-                            <Typography style={{textTransform: 'none'}}>Register</Typography>
-                        </Button>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="zip"
+                                label="Zip"
+                                type="number"
+                                id="zip"
+                            />
+                        </div>
+                            <div style={formColumnsStyle}>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="text"
+                                id="password"
+                                error={isPasswordError}
+                            />
+                            {isPasswordError && <label className={"text-danger mt-0"}>user 'password' must be at least nine characters long and contain an uppercase letter,a lowercase letter, a number and one of the following characters !@#$%^&*-</label>}
+                            </div >
+                        </div>
+                        <div>
+                            <div className={"mt-3"}>
+                                <Checkbox
+                                    color="primary"
+                                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                                    onChange={()=>setBusiness(!isBusiness)}
+                                    size='large'
+                                />
+                                <label className={"fs-5"}>Register as business</label>
+                            </div>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt:3 , mb:2 }}
+                            >
+                                <Typography style={{textTransform: 'none'}}>Register</Typography>
+                            </Button>
+                        </div>
                     </Box>
+
                 </Box>
             </Container>
         </ThemeProvider>

@@ -7,7 +7,6 @@ import {GetCardsByUser} from "../../Services/GetCardsByUser";
 export function MyCardsPage({loggedInUser}) {
     const [pageState,setPageState] = useState('View');
     const cards = GetCardsByUser(loggedInUser);
-    // const cards = await getCards();
     return (
         <>
             <h2 className={"text-center"}>MY CARDS</h2>

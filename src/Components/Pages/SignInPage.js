@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -8,43 +7,43 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {PiSignInFill} from "react-icons/pi"
 import {toast, ToastContainer} from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import { SignInHandler } from "../../Services/Users/SignInHandler";
 import {businessMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
 import {getUser, userLogin} from "../../Services/Axios/axios";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
+import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();
 
-export function SignInPage({setMenu, setLoggedInUser}) {
+export function SignInPage({setMenu, setLoggedInUser, setPath}) {
+    setPath(location.pathname);
     const navigate = useNavigate();
-    const [token, setToken] = useState('');
-    const [user, setUser] = useState({});
     async function signIn(event) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const userInput = {
-            email: data.get("email"),
-            password: data.get("password")
+
+        // prepare post data for server request
+        const post = {
+            email: data.get('email'),
+            password: data.get('password')
         }
-        await userLogin(userInput,setToken,setUser);
-        if (user) {
-            toast.success('Welcome ' + user.name);
-            if (user.type === 'simple') {
+
+        // try to fetch data from server //
+        try {
+            const userDataResponse = await getUser(post);
+            setLoggedInUser(userDataResponse.data);
+            toast.success(`Welcome ${userDataResponse.data.name.first}!`)
+            if (userDataResponse.data.isBusiness === false) {
                 setTimeout(()=>{
-                    navigate('/home', { replace: true });
-                    setMenu(simpleMenu);
-                    setLoggedInUser(user);
-                },2000)
+                    navigate('/home', {replace: true});
+                    setMenu(simpleMenu);},
+                    2000);
             } else {
                 setTimeout(()=>{
-                    navigate('/home', { replace: true });
-                    setMenu(businessMenu);
-                    setLoggedInUser(user);
-                },2000)
+                    navigate('/home', {replace: true});
+                    setMenu(businessMenu);},
+                2000);
             }
-        } else {
-            toast.error('Registration Failed');
+        } catch (error) {
+            toast.error(`Wrong email or password`);
         }
     }
     return (
@@ -52,7 +51,7 @@ export function SignInPage({setMenu, setLoggedInUser}) {
         <ToastContainer
             position="top-center"
             text-center
-            autoClose={2000}
+            autoClose={1000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -61,7 +60,7 @@ export function SignInPage({setMenu, setLoggedInUser}) {
             draggable
             pauseOnHover
             theme="dark"
-        />
+            />
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
                 <Box

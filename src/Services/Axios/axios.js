@@ -16,20 +16,22 @@ export async function userLogin(userInput, setToken, setUser) {
         const res = await axios.post('http://localhost:8181/users/login', post)
         setToken(res.data);
         await getUser(res.data,setUser);
+
     } catch (e) {
         alert(e)
     }
 }
-export async function getUser(token,setUser) {
-    const config = {
-        headers: { 'x-auth-token':  token }
-    };
-    let decoded = jwtDecode(token);
-    const url = 'http://localhost:8181/users/' + decoded._id;
-    try {
-        const res = await axios.get(url,config);
-        setUser(res.data);
-    } catch (e) {
-        console.log(e)
-    }
+export async function getUser(post) {
+        const loginResponse = await axios.post(`http://localhost:8181/users/login`, post);
+
+        const accessToken = loginResponse.data;
+        const decodedToken = jwtDecode(accessToken);
+        localStorage.setItem('accessToken',accessToken);
+        // Use decoded token to fetch user data
+        const userDataResponse = await axios.get(`http://localhost:8181/users/${decodedToken._id}`, {
+            headers: {
+                'x-auth-token': accessToken,
+            }
+        });
+        return userDataResponse;
 }

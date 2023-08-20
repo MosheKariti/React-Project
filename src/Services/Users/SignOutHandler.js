@@ -2,6 +2,6 @@ import { guestMenu } from "../Menu/MenusHandler";
 
 export function SignOutHandler(setMenu, setLoggedInUser) {
         setMenu(guestMenu);
-        localStorage.removeItem('loggedInUser');
+        localStorage.removeItem('accessToken');
         setLoggedInUser(null);
 }

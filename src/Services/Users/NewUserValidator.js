@@ -2,6 +2,7 @@ import {validEmail, validPassword, validPhone} from "../../Components/Pages/Rege
 export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailError, setIsPhoneError, setIsPasswordError) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(data.get('firstName'));
     const user = {
         name: {
             first: data.get('firstName'),
@@ -26,7 +27,11 @@ export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailEr
         isAdmin: false,
         isBusiness: isBusiness
     }
-    if (validatePassword() &&  validateEmail() && validatePhone() &&  validateFirstName()) {
+    const isValidPassword = validatePassword();
+    const isValidEmail = validateEmail();
+    const isValidPhone = validatePhone();
+    const isValidFirstName = validateFirstName();
+    if (isValidPassword && isValidEmail && isValidPhone &&  isValidFirstName) {
         return {user: user,valid: true};
     }
     function validatePassword() {
@@ -34,6 +39,7 @@ export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailEr
             setIsPasswordError(true);
             return false;
         } else {
+            setIsPasswordError(false);
             return true;
         }
     }
@@ -42,6 +48,7 @@ export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailEr
             setIsEmailError(true);
             return false;
         } else {
+            setIsEmailError(false);
             return true;
         }
     }
@@ -50,6 +57,7 @@ export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailEr
             setIsPhoneError(true);
             return false;
         } else {
+            setIsPhoneError(false);
             return true;
         }
     }
@@ -58,6 +66,7 @@ export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailEr
             setIsNameError(true);
             return false;
         } else {
+            setIsNameError(false);
             return true;
         }
     }

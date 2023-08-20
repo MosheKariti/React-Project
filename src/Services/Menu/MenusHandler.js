@@ -5,6 +5,8 @@ import { BiRegistered, BiSolidRegistered } from "react-icons/bi";
 import { PiSignInFill } from "react-icons/pi";
 import { AiFillHome } from "react-icons/ai";
 import { PiCardsBold } from "react-icons/pi"
+import { MdOutlineFavorite } from "react-icons/md"
+
 
 const home = {
     to: ROUTES.HOME,
@@ -41,7 +43,12 @@ const myCards = {
     label: "My Cards",
     icon: <PiCardsBold size={25} color={"black"} title={"My Cards"}/>
 }
+const favCards = {
+    to: ROUTES.FAVCARDS,
+    label: "Favorite Cards",
+    icon: <MdOutlineFavorite size={25} color={"black"} title={"Favorite Cards"}/>
+}
 
 export const guestMenu = [home,cards,about,registration,signIn];
-export const simpleMenu = [home,cards,about,signOut];
-export const businessMenu = [home,about,myCards,signOut];
+export const simpleMenu = [home,favCards,cards,about,signOut];
+export const businessMenu = [home,myCards,favCards,about,signOut];

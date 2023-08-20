@@ -5,7 +5,8 @@ const ROUTES = {
     ABOUT: "/about",
     SIGNIN: "/sign-in",
     REGISTRATION: "/registration",
-    MYCARDS: "/my-cards"
+    MYCARDS: "/my-cards",
+    FAVCARDS: "/favorite-cards"
 };
 
 export default ROUTES;
