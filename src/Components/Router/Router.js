@@ -14,7 +14,7 @@ function Router({setMenu,setLoggedInUser, loggedInUser, setPath}) {
     return (
         <Routes>
             <Route path={ROUTES.HOME} element={<HomePage/>}/>
-            <Route path={ROUTES.CARDS} element={<CardsPage/>}/>
+            <Route path={ROUTES.CARDS} element={<CardsPage loggedInUser={loggedInUser}/>}/>
             <Route path={ROUTES.ABOUT} element={<AboutPage/>}/>
             <Route path={ROUTES.SIGNIN} element={<SignInPage setPath={setPath} setMenu={setMenu} setLoggedInUser={setLoggedInUser}/>}/>
             <Route path={ROUTES.REGISTRATION} element={<Registration/>}/>

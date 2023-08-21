@@ -3,8 +3,10 @@ import { MyCardButtons } from "../Cards/MyCardButtons";
 import { CreateCard } from "../Cards/CreateCard";
 import { CardsRender } from "../Cards/CardsRender";
 import {GetCardsByUser} from "../../Services/GetCardsByUser";
+import {initialCards} from "../../Data/defaultCards";
 
 export function MyCardsPage({loggedInUser}) {
+
     const [pageState,setPageState] = useState('View');
     const cards = GetCardsByUser(loggedInUser);
     return (
@@ -19,11 +21,23 @@ export function MyCardsPage({loggedInUser}) {
                 </div>
                 <div style={{width:'80%',marginBottom:'150px'}}>
                     {pageState === 'View' &&
-                        <CardsRender cardsArray={cards} isEditMode={true}/>}
+                        <>
+                            {cards.map(card => (
+                                <CardsRender
+                                    cardAlt={card.image.alt}
+                                    cardID={card._id}
+                                    isEditMode={true}
+                                    cardDesc={card.description}
+                                    cardAddress={card.address}
+                                    cardPhone={card.phone}
+                                    cardTitle={card.title}
+                                    cardImageUrl={card.image.url}
+                                ></CardsRender>
+                            ))}
+                        </>
                     }
                 </div>
             </div>
-
         </>
     )
 }

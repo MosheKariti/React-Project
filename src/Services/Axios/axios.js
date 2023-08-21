@@ -3,24 +3,21 @@ import {useState} from "react";
 import jwtDecode from "jwt-decode";
 
 export async function createUser(user) {
-    try {
-        const res = await axios.post('http://localhost:8181/users', user)
-        console.log(res.data)
-    } catch (e) {
-        console.log(e)
-    }
-}
-export async function userLogin(userInput, setToken, setUser) {
-    const post = { email: userInput.email, password: userInput.password }
-    try {
-        const res = await axios.post('http://localhost:8181/users/login', post)
-        setToken(res.data);
-        await getUser(res.data,setUser);
 
-    } catch (e) {
-        alert(e)
-    }
+    await axios.post('http://localhost:8181/users', user)
+
 }
+// export async function userLogin(userInput, setToken, setUser) {
+//     const post = { email: userInput.email, password: userInput.password }
+//     try {
+//         const res = await axios.post('http://localhost:8181/users/login', post)
+//         setToken(res.data);
+//         await getUser(res.data,setUser);
+//
+//     } catch (e) {
+//         alert(e)
+//     }
+// }
 export async function getUser(post) {
         const loginResponse = await axios.post(`http://localhost:8181/users/login`, post);
 
@@ -34,4 +31,18 @@ export async function getUser(post) {
             }
         });
         return userDataResponse;
+}
+export async function handleCardLiking(cardID) {
+    const accessToken = localStorage.getItem('accessToken');
+    console.log(accessToken);
+    const favoriteResponse = await axios.patch(`http://localhost:8181/cards/${cardID}`,{},{
+        headers: {
+            'x-auth-token': accessToken,
+        }
+    });
+    return favoriteResponse;
+}
+export async function getCards() {
+   const cards = await axios.get('http://localhost:8181/cards');
+   return cards.data;
 }

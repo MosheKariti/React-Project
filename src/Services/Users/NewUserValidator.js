@@ -2,7 +2,6 @@ import {validEmail, validPassword, validPhone} from "../../Components/Pages/Rege
 export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailError, setIsPhoneError, setIsPasswordError) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data.get('firstName'));
     const user = {
         name: {
             first: data.get('firstName'),

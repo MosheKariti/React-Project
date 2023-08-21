@@ -40,7 +40,18 @@ export function AboutPage() {
                             display: { md: "flex", xs: "none" },
                             justifyContent: "center",
                         }}>
-                        <CardsRender cardsArray={exampleCard} isEditMode={true}></CardsRender>
+                        {exampleCard.map(card => (
+                            <CardsRender
+                                cardAlt={card.image.alt}
+                                cardID={card._id}
+                                isEditMode={true}
+                                cardDesc={card.description}
+                                cardAddress={card.address}
+                                cardPhone={card.phone}
+                                cardTitle={card.title}
+                                cardImageUrl={card.image.url}
+                            ></CardsRender>
+                        ))}
                     </Grid>
                 </Grid>
             </Container>

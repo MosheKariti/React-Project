@@ -8,7 +8,7 @@ import {PiSignInFill} from "react-icons/pi"
 import {toast, ToastContainer} from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import {businessMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
-import {getUser, userLogin} from "../../Services/Axios/axios";
+import {getUser} from "../../Services/Axios/axios";
 import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();

@@ -29,9 +29,13 @@ export function Registration() {
         const user = validatorResponse.user;
         const isValid = validatorResponse.valid;
         if (isValid) {
-            await createUser(user);
-            toast.success('Registration Success');
-            setTimeout(()=>navigate('/sign-in', { replace: true }),2000)
+            try {
+                await createUser(user);
+                toast.success('Registration Success');
+                setTimeout(()=>navigate('/sign-in', { replace: true }),2000)
+            } catch (error) {
+                toast.error('Registration Failed');
+            }
         } else {
             toast.error('Registration Failed');
         }
