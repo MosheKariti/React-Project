@@ -24,13 +24,13 @@ export function MyCardsPage({loggedInUser}) {
             <h2 className={"text-center"}>MY CARDS</h2>
             {pageState === 'view' &&
             <>
-                <Button onClick={handleCreateCardBtn}>Create Card</Button>
+                <Button size={'large'} onClick={handleCreateCardBtn}>Create Card</Button>
                 <MyCardsView loggedInUser={loggedInUser} handleEditCard={handleEditCard} ></MyCardsView>
             </>
             }
             {pageState === 'cardForm' &&
                 <>
-            <Button onClick={handleBackBtn}>Back</Button>
+            <Button size={'large'} onClick={handleBackBtn}>Back</Button>
                     <CardForm setPageState={setPageState} cardToEdit={cardToEdit} formMode={formMode}></CardForm>
                 </>
             }

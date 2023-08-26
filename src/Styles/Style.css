@@ -32,3 +32,12 @@
     background-size: cover;
     position:fixed;
 }
+#myModal.modal {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+#myModal .modal-dialog.modal-lg {
+    /*max-width: 800px;*/
+    width: 1500px;
+}
