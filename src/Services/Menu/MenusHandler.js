@@ -51,4 +51,4 @@ const favCards = {
 
 export const guestMenu = [home,cards,about,registration,signIn];
 export const simpleMenu = [home,favCards,cards,about,signOut];
-export const businessMenu = [home,myCards,favCards,about,signOut];
+export const businessMenu = [home,cards,myCards,favCards,about,signOut];

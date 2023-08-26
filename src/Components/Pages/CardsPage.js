@@ -59,20 +59,22 @@ export function CardsPage({loggedInUser}) {
                 theme="dark"
             />
             <div>
-                <div style={{display:'flex', justifyContent:'center'}} className={"container-fluid content p-3 bg-opacity-75"}>
+                <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
                     {cards.map(card => (
+                        <div style={{flex: '0 0 10%', padding: '10px'}}>
                         <CardsRender
-                            cardAlt={card.image.alt}
-                            cardID={card._id}
-                            cardDesc={card.description}
-                            cardAddress={card.address}
-                            cardPhone={card.phone}
-                            cardTitle={card.title}
-                            cardImageUrl={card.image.url}
-                            isFavorite={card.isFavorite}
-                            favFunction={handleCardLike}
-                            phoneFunction={promptToastToRegister}
-                        ></CardsRender>
+                                cardAlt={card.image.alt}
+                                cardID={card._id}
+                                cardDesc={card.description}
+                                cardAddress={card.address}
+                                cardPhone={card.phone}
+                                cardTitle={card.title}
+                                cardImageUrl={card.image.url}
+                                isFavorite={card.isFavorite}
+                                favFunction={handleCardLike}
+                                phoneFunction={promptToastToRegister}
+                            ></CardsRender>
+                        </div>
                     ))}
                 </div>
             </div>

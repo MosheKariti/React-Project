@@ -4,23 +4,24 @@ import Router from "./Components/Router/Router";
 import {Header} from "./Components/Main/Header";
 import {Footer} from "./Components/Main/Footer";
 import {useState} from "react";
-import {MenuToDisplay} from "./Services/Menu/MenuToDisplay";
 import {initCards} from "./Services/Cards/InitCards";
+import {guestMenu} from "./Services/Menu/MenusHandler";
 
 function App() {
     initCards();
-    const [loggedInUser,setLoggedInUser] = useState(null);
-    const [menu, setMenu] = useState(()=>MenuToDisplay(loggedInUser));
+    const [loggedInUser,setLoggedIntUser] = useState(null);
+    const [menu, setMenu] = useState(guestMenu);
     const [path,setPath] = useState(location.path);
     return (
-      <div>
-      <BrowserRouter>
-          <Header path={path} setPath={setPath} menu={menu} setMenu={setMenu} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></Header>
-          <Router setMenu={setMenu} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} setPath={setPath}/>
-          <Footer/>
-      </BrowserRouter>
-      </div>
+        <>
+        <div>
+            <BrowserRouter>
+                <Header path={path} setPath={setPath} menu={menu} setMenu={setMenu} loggedInUser={loggedInUser} setLoggedInUser={setLoggedIntUser}></Header>
+                <Router setMenu={setMenu} setPath={setPath} loggedInUser={loggedInUser} setLoggedInUser={setLoggedIntUser}/>
+                <Footer/>
+            </BrowserRouter>
+        </div>
+        </>
   );
 }
-
 export default App;

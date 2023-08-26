@@ -11,12 +11,9 @@ import { MdDelete } from "react-icons/md";
 
 
 export function CardsRender({isEditMode, favFunction, phoneFunction, deleteFunction, editFunction,cardID,cardTitle,cardDesc,cardPhone,cardAddress,cardAlt,cardImageUrl,isFavorite}) {
-    // const [isFavorite, setIsFavorite] = useState(false);
-    // setIsFavorite(prevFavorite => !prevFavorite);
     return (
         <>
-            <div className={'d-inline-flex container-fluid'} style={{marginTop:'100px'}}>
-                    <>
+            {/*<div className={'d-inline-flex container-fluid'}>*/}
                         <Card  style={{width:'300px',minHeight:'400px', margin:'10px'}}>
                             <CardMedia
                                 sx={{height: 140}}
@@ -63,8 +60,7 @@ export function CardsRender({isEditMode, favFunction, phoneFunction, deleteFunct
                                 </div>
                             </CardContent>
                         </Card>
-                    </>
-            </div>
+            {/*</div>*/}
         </>
     )
 }

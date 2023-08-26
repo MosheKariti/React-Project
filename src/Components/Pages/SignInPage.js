@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();
 
-export function SignInPage({setMenu, setLoggedInUser, setPath}) {
+export function SignInPage({setMenu,setPath,setLoggedInUser}) {
     setPath(location.pathname);
     const navigate = useNavigate();
     async function signIn(event) {
@@ -29,9 +29,9 @@ export function SignInPage({setMenu, setLoggedInUser, setPath}) {
         // try to fetch data from server //
         try {
             const userDataResponse = await getUser(post);
-            setLoggedInUser(userDataResponse.data);
-            toast.success(`Welcome ${userDataResponse.data.name.first}!`)
-            if (userDataResponse.data.isBusiness === false) {
+            setLoggedInUser(userDataResponse);
+            toast.success(`Welcome ${userDataResponse.name.first}!`)
+            if (userDataResponse.isBusiness === false) {
                 setTimeout(()=>{
                     navigate('/home', {replace: true});
                     setMenu(simpleMenu);},

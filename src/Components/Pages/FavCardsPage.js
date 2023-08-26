@@ -34,20 +34,22 @@ export function FavCardsPage({loggedInUser}) {
                    {cards.length === 0 && <h1>No Favorite Cards yet</h1>}
                 </div>
                 <div>
-                    <div style={{display:'flex', justifyContent:'center'}} className={"container-fluid content p-3 bg-opacity-75"}>
+                        <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
                         {cards.map(card => (
-                            <CardsRender
-                                cardAlt={card.image.alt}
-                                cardID={card._id}
-                                isEditMode={false}
-                                cardDesc={card.description}
-                                cardAddress={card.address}
-                                cardPhone={card.phone}
-                                cardTitle={card.title}
-                                cardImageUrl={card.image.url}
-                                isFavorite={true}
-                                favFunction={handleRemoveFromFavorites}
-                            ></CardsRender>
+                            <div style={{flex: '0 0 10%', padding: '10px'}}>
+                                <CardsRender
+                                    cardAlt={card.image.alt}
+                                    cardID={card._id}
+                                    isEditMode={false}
+                                    cardDesc={card.description}
+                                    cardAddress={card.address}
+                                    cardPhone={card.phone}
+                                    cardTitle={card.title}
+                                    cardImageUrl={card.image.url}
+                                    isFavorite={true}
+                                    favFunction={handleRemoveFromFavorites}
+                                ></CardsRender>
+                            </div>
                         ))}
                     </div>
                 </div>

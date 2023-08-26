@@ -26,7 +26,7 @@ export function HomePage() {
                 theme="dark"
             />
             <div className={"container-fluid p-5 vh-100 bg-image backgroundImageHomePage"}>
-                <div className={"bg-opacity-75 text-start w-50 bg-dark text-bg-secondary"}>
+                <div className={"bg-opacity-75 text-start w-50 bg-dark text-bg-secondary p-3"}>
                     <h2 className={"mt-2 font-monospace text-decoration-underline"}>Businesses From All Kinds</h2>
                     <h5 className={"mt-3 font-monospace"}>In this site you can explore and find businesses from all the kinds, get started and add to your favorites list</h5>
                 </div>

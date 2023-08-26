@@ -1,43 +1,39 @@
-import React, { useState } from "react";
-import { MyCardButtons } from "../Cards/MyCardButtons";
-import { CreateCard } from "../Cards/CreateCard";
-import { CardsRender } from "../Cards/CardsRender";
-import {GetCardsByUser} from "../../Services/GetCardsByUser";
-import {initialCards} from "../../Data/defaultCards";
+import React, {useState} from "react";
+import Button from "@mui/material/Button";
+import {CardForm} from "../Cards/CardForm";
+import {MyCardsView} from "../Cards/MyCardsView";
 
 export function MyCardsPage({loggedInUser}) {
-
-    const [pageState,setPageState] = useState('View');
-    const cards = GetCardsByUser(loggedInUser);
+    const [pageState,setPageState] = useState('view');
+    const [cardToEdit,setCardToEdit] = useState(null);
+    let [formMode,setFormMode] = useState('');
+    function handleEditCard(card) {
+        setCardToEdit(card);
+        setFormMode('edit');
+        setPageState('cardForm');
+    }
+    function handleBackBtn() {
+        setPageState('view');
+    }
+    function handleCreateCardBtn() {
+        setFormMode('create');
+        setPageState('cardForm');
+    }
     return (
         <>
             <h2 className={"text-center"}>MY CARDS</h2>
-            <div style={{position:'absolute', width:'200px',left:'0'}}>
-                <MyCardButtons setPageState={setPageState}></MyCardButtons>
-            </div>
-            <div style={{marginTop:'60px', justifyContent:'center', alignItems:'center',alignContent:'center'}}>
-                <div>
-                    {pageState === 'Create Card' && <CreateCard/>}
-                </div>
-                <div style={{width:'80%',marginBottom:'150px'}}>
-                    {pageState === 'View' &&
-                        <>
-                            {cards.map(card => (
-                                <CardsRender
-                                    cardAlt={card.image.alt}
-                                    cardID={card._id}
-                                    isEditMode={true}
-                                    cardDesc={card.description}
-                                    cardAddress={card.address}
-                                    cardPhone={card.phone}
-                                    cardTitle={card.title}
-                                    cardImageUrl={card.image.url}
-                                ></CardsRender>
-                            ))}
-                        </>
-                    }
-                </div>
-            </div>
+            {pageState === 'view' &&
+            <>
+                <Button onClick={handleCreateCardBtn}>Create Card</Button>
+                <MyCardsView loggedInUser={loggedInUser} handleEditCard={handleEditCard} ></MyCardsView>
+            </>
+            }
+            {pageState === 'cardForm' &&
+                <>
+            <Button onClick={handleBackBtn}>Back</Button>
+                    <CardForm setPageState={setPageState} cardToEdit={cardToEdit} formMode={formMode}></CardForm>
+                </>
+            }
         </>
     )
 }

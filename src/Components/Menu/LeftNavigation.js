@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import Box from '@mui/material/Box';
 import NavItem from "./NavItem";
 import {LoggedInUser} from "../Main/LoggedInUser";
 
 function LeftNavigation({path, setPath, menu, setMenu, loggedInUser, setLoggedInUser}) {
+
     return (
         <>
             <div className={'d-inline-flex'} style={{width:'100%'}}>
