@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {CardsRender} from "../Cards/CardsRender";
-import {initialCards} from "../../Data/defaultCards.js";
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import {handleCardLiking} from "../../Services/Axios/axios";
@@ -13,7 +12,7 @@ export function CardsPage({loggedInUser}) {
         if (loggedInUser) {
             const cardId = event.currentTarget.getAttribute('card-id');
             try {
-                await handleCardLiking(cardId) /// should add card ID
+                await handleCardLiking(cardId);
                 const updateCards = cards.map(card =>
                 card._id === cardId ? {...card, isFavorite: !card.isFavorite} : card);
                 setCards(updateCards);
@@ -60,9 +59,10 @@ export function CardsPage({loggedInUser}) {
             />
             <div>
                 <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
-                    {cards.map(card => (
+                    {cards.map((card,index) => (
                         <div style={{flex: '0 0 10%', padding: '10px'}}>
                         <CardsRender
+                                key={index}
                                 cardAlt={card.image.alt}
                                 cardID={card._id}
                                 cardDesc={card.description}

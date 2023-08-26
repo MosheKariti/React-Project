@@ -1,9 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import LeftNavigation from "../Menu/LeftNavigation";
 import "../../Styles/Style.css"
+import {HandleAccessToken} from "../../Services/Users/HandleAccessToken";
 
 
 export function Header({path, setPath, menu , setMenu, loggedInUser, setLoggedInUser}) {
+    useEffect(async ()=>{
+        if (!loggedInUser) {
+            const user = await HandleAccessToken();
+            console.log(user);
+            setLoggedInUser(user);
+        }
+    },[])
 
     return (
         <>

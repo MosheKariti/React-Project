@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -72,8 +72,8 @@ export function Registration() {
                         alignItems: 'center',
                     }}
                 >
-                    <BiSolidRegistered size={50} style={{ margin:"2", marginTop:"5"}} />
-                    <Typography component="h1" variant="h5" mt={1} style={{marginBottom:'30px'}} >
+                    <BiSolidRegistered size={50}/>
+                    <Typography component="h1" variant="h5" mt={1}>
                         Registration
                     </Typography>
                     <Box

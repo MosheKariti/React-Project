@@ -14,7 +14,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const defaultTheme = createTheme();
 
 export function SignInPage({setMenu,setPath,setLoggedInUser}) {
-    setPath(location.pathname);
     const navigate = useNavigate();
     async function signIn(event) {
         event.preventDefault();
@@ -87,6 +86,7 @@ export function SignInPage({setMenu,setPath,setLoggedInUser}) {
                         <TextField
                             margin="normal"
                             required
+                            autoComplete='current=password'
                             fullWidth
                             name="password"
                             label="Password"

@@ -73,7 +73,8 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
     async function handleSubmit(event) {
 
         const validatorResponse = NewCardValidator(
-            event,setIsTitleError,setIsSubtitleError,setIsDescriptionError,setIsPhoneError,setIsEmailError,setIsCountryError,setIsCityError,setIsStreetError,setIsHouseNumberError,cardToEdit
+            event,setIsTitleError,setIsSubtitleError,setIsDescriptionError,setIsPhoneError,setIsEmailError,
+            setIsCountryError, setIsCityError,setIsStreetError,setIsHouseNumberError,cardToEdit
         );
         const card = validatorResponse.card;
         const isValid = validatorResponse.valid;
@@ -350,16 +351,3 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
     </>
 }
 
-// const [titleValue,setTitleValue] = useState(null);
-// const [subtitleValue,setSubtitleValue] = useState(null);
-// const [descriptionValue,setDescriptionValue] = useState(null);
-// const [phoneValue,setPhoneValue] = useState(null);
-// const [emailValue,setEmailValue] = useState(null);
-// const [webValue,setWebValue] = useState(null);
-// const [imageValue,setImageValue] = useState(null);
-// const [stateValue,setStateValue] = useState(null);
-// const [countryValue,setCountryValue] = useState(null);
-// const [cityValue,setCityValue] = useState(null);
-// const [streetValue,setStreetValue] = useState(null);
-// const [houseNumberValue,setHouseNumberValue] = useState(null);
-// const [zipValue,setZipValue] = useState(null);

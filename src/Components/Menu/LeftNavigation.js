@@ -2,18 +2,27 @@ import React from "react";
 import Box from '@mui/material/Box';
 import NavItem from "./NavItem";
 import {LoggedInUser} from "../Main/LoggedInUser";
+import {businessMenu, guestMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
 
 function LeftNavigation({path, setPath, menu, setMenu, loggedInUser, setLoggedInUser}) {
-
+    if (loggedInUser) {
+        if (loggedInUser.isBusiness) {
+            setMenu(businessMenu);
+        } else {
+            setMenu(simpleMenu);
+        }
+    } else {
+        setMenu(guestMenu)
+    }
     return (
         <>
             <div className={'d-inline-flex'} style={{width:'100%'}}>
                 <div className={'col-8'} style={{paddingLeft:'55px'}}>
                 <Box>
                     <Box sx={{display: {xs: "none", md: "inline-flex"}}}>
-                        {menu.map((x) => (
+                        {menu.map((x,index) => (
                                 <>
-                                    <NavItem path={path} setPath={setPath} label={x.label} to={x.to} icon={x.icon} setMenu={setMenu} setLoggedInUser={setLoggedInUser}/>
+                                <NavItem key={index} path={path} setPath={setPath} label={x.label} to={x.to} icon={x.icon} setMenu={setMenu} setLoggedInUser={setLoggedInUser}/>
                                 </>
                             )
                         )}

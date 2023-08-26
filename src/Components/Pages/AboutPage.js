@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {AboutPageHeader} from "../Main/AboutPageHeader";
@@ -40,8 +40,9 @@ export function AboutPage() {
                             display: { md: "flex", xs: "none" },
                             justifyContent: "center",
                         }}>
-                        {exampleCard.map(card => (
+                        {exampleCard.map((card,index) => (
                             <CardsRender
+                                key={index}
                                 cardAlt={card.image.alt}
                                 cardID={card._id}
                                 isEditMode={true}

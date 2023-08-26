@@ -1,12 +1,11 @@
 import React from "react";
 import ROUTES from "../../RouterModel";
 import { FcAbout } from "react-icons/fc";
-import { BiRegistered, BiSolidRegistered } from "react-icons/bi";
+import {BiSolidRegistered } from "react-icons/bi";
 import { PiSignInFill } from "react-icons/pi";
 import { AiFillHome } from "react-icons/ai";
 import { PiCardsBold } from "react-icons/pi"
 import { MdOutlineFavorite } from "react-icons/md"
-
 
 const home = {
     to: ROUTES.HOME,

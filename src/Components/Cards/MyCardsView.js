@@ -49,9 +49,10 @@ export function MyCardsView({handleEditCard,loggedInUser}) {
         {!isLoading &&
         <>
             <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
-                {cards.map(card => (
+                {cards.map((card, index) => (
                     <div style={{flex: '0 0 10%', padding: '10px'}}>
                         <CardsRender
+                            key={index}
                             deleteFunction={handleDeleteCard}
                             editFunction={()=>handleEditCard(card)}
                             cardAlt={card.image.alt}

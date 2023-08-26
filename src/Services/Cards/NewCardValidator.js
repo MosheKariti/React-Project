@@ -1,5 +1,4 @@
 import {validEmail, validPhone} from "../../Components/Pages/Regex";
-import {useLoaderData} from "react-router";
 export function NewCardValidator(
     event,setIsTitleError,setIsSubtitleError,setIsDescriptionError,setIsPhoneError,setIsEmailError,setIsCountryError,setIsCityError,setIsStreetError,setIsHouseNumberError,cardToEdit
 ) {
