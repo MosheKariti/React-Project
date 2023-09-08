@@ -39,6 +39,24 @@ export async function getUsers() {
     });
     return users.data;
 }
+export async function deleteUser(userId) {
+    const accessToken = localStorage.getItem('accessToken');
+    const deleteResponse = await axios.delete('http://localhost:8181/users/' + userId,{
+        headers: {
+            'x-auth-token': accessToken,
+        }
+    });
+    return deleteResponse.data;
+}
+export async function changeUserType(userId) {
+    const accessToken = localStorage.getItem('accessToken');
+    const changeTypeResponse = await axios.patch('http://localhost:8181/users/' + userId,{},{
+        headers: {
+            'x-auth-token': accessToken,
+        }
+    });
+    return changeTypeResponse.data;
+}
 
 
 //CARDS

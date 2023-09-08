@@ -14,7 +14,7 @@ export function LoggedInUser({loggedInUser}) {
         <>
             {isEditUser &&
             <>
-            <div className={"modal"} id={'myModal'}>
+            <div className={"modal bg-opacity-50 bg-dark"} id={'myModal'}>
                 <div className={"modal-dialog-centered"}>
                     <div className={"modal-content"}>
                         <div>
