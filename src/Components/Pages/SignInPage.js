@@ -7,9 +7,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {PiSignInFill} from "react-icons/pi"
 import {toast, ToastContainer} from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import {businessMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
+import {adminMenu, businessMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
 import {getUser} from "../../Services/Axios/axios";
 import 'react-toastify/dist/ReactToastify.css';
+import {HandleFailedEntries} from "../../Services/Users/HandleFailedEntries";
 
 const defaultTheme = createTheme();
 
@@ -30,19 +31,24 @@ export function SignInPage({setMenu,setPath,setLoggedInUser}) {
             const userDataResponse = await getUser(post);
             setLoggedInUser(userDataResponse);
             toast.success(`Welcome ${userDataResponse.name.first}!`)
-            if (userDataResponse.isBusiness === false) {
-                setTimeout(()=>{
-                    navigate('/home', {replace: true});
-                    setMenu(simpleMenu);},
-                    2000);
-            } else {
+            if (userDataResponse.isBusiness === true) {
                 setTimeout(()=>{
                     navigate('/home', {replace: true});
                     setMenu(businessMenu);},
+                    2000);
+            } else if (userDataResponse.isAdmin === true) {
+                setTimeout(()=>{
+                    navigate('/crm', {replace: true});
+                    setMenu(adminMenu);},
+                2000);
+            } else if (!userDataResponse.isBusiness && !userDataResponse.isAdmin){
+                setTimeout(()=>{
+                    navigate('/home', {replace: true});
+                    setMenu(simpleMenu);},
                 2000);
             }
         } catch (error) {
-            toast.error(`Wrong email or password`);
+            HandleFailedEntries(post.email);
         }
     }
     return (
@@ -50,7 +56,7 @@ export function SignInPage({setMenu,setPath,setLoggedInUser}) {
         <ToastContainer
             position="top-center"
             text-center
-            autoClose={1000}
+            autoClose={2000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick

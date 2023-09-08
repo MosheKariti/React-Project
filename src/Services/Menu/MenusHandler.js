@@ -6,6 +6,7 @@ import { PiSignInFill } from "react-icons/pi";
 import { AiFillHome } from "react-icons/ai";
 import { PiCardsBold } from "react-icons/pi"
 import { MdOutlineFavorite } from "react-icons/md"
+import { GrUserAdmin } from "react-icons/gr"
 
 const home = {
     to: ROUTES.HOME,
@@ -47,7 +48,13 @@ const favCards = {
     label: "Favorite Cards",
     icon: <MdOutlineFavorite size={25} color={"black"} title={"Favorite Cards"}/>
 }
+const crm = {
+    to: ROUTES.CRM,
+    label: "CRM",
+    icon: <GrUserAdmin size={25} color={"black"} title={"CRM"}/>
+}
 
 export const guestMenu = [home,cards,about,registration,signIn];
 export const simpleMenu = [home,favCards,cards,about,signOut];
 export const businessMenu = [home,cards,myCards,favCards,about,signOut];
+export const adminMenu = [home, crm, signOut];

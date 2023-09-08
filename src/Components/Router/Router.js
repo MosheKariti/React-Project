@@ -8,6 +8,7 @@ import ROUTES from "../../RouterModel";
 import {MyCardsPage} from "../Pages/MyCardsPage";
 import {CardsPage} from "../Pages/CardsPage";
 import {FavCardsPage} from "../Pages/FavCardsPage";
+import {CRMAdminPage} from "../Pages/CRMAdminPage";
 
 
 function Router({setMenu,setLoggedInUser, loggedInUser, setPath}) {
@@ -20,6 +21,7 @@ function Router({setMenu,setLoggedInUser, loggedInUser, setPath}) {
             <Route path={ROUTES.REGISTRATION} element={<Registration/>}/>
             <Route path={ROUTES.MYCARDS} element={<MyCardsPage loggedInUser={loggedInUser}/>}/>
             <Route path={ROUTES.FAVCARDS} element={<FavCardsPage loggedInUser={loggedInUser}/>}/>
+            <Route path={ROUTES.CRM} element={<CRMAdminPage/>}/>
 
             <Route path="*" element={<HomePage/>}/>
 

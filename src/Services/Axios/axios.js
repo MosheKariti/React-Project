@@ -22,6 +22,24 @@ export async function getUserDetailsByToken(accessToken) {
     });
     return userDataResponse.data;
 }
+export async function updateUser(user) {
+    const accessToken = localStorage.getItem('accessToken');
+    await axios.put('http://localhost:8181/users/' + user._id, user,{
+        headers: {
+            'x-auth-token': accessToken,
+        }
+    });
+}
+export async function getUsers() {
+    const accessToken = localStorage.getItem('accessToken');
+    const users = await axios.get('http://localhost:8181/users',{
+        headers: {
+            'x-auth-token': accessToken,
+        }
+    });
+    return users.data;
+}
+
 
 //CARDS
 export async function createCard(card) {

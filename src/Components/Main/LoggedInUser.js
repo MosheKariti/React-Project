@@ -3,13 +3,12 @@ import { HandleAccessToken } from "../../Services/Users/HandleAccessToken";
 import Button from "@mui/material/Button";
 import { BsPersonSquare } from "react-icons/bs"
 import {useState} from "react";
-import {RenderUserDetails} from "./RenderUserDetails";
+import {UpdateUser} from "./UpdateUser";
 
 export function LoggedInUser({loggedInUser}) {
     const [isEditUser,setIsEditUser] = useState(false);
     function handelEditUser() {
         setIsEditUser(!isEditUser);
-        console.log(loggedInUser);
     }
     return (
         <>
@@ -19,7 +18,7 @@ export function LoggedInUser({loggedInUser}) {
                 <div className={"modal-dialog-centered"}>
                     <div className={"modal-content"}>
                         <div>
-                            <RenderUserDetails loggedInUser={loggedInUser}></RenderUserDetails>
+                            <UpdateUser loggedInUser={loggedInUser} setIsEditUser={setIsEditUser}></UpdateUser>
                         </div>
                         <Button onClick={()=>setIsEditUser(false)}>Close</Button>
                     </div>

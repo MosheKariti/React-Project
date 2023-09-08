@@ -4,8 +4,8 @@ export function NewCardValidator(
 ) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
     const card = {
-        user_id: cardToEdit.user_id,
         title: data.get('title'),
         subtitle: data.get('subtitle'),
         description: data.get('description'),
@@ -24,6 +24,9 @@ export function NewCardValidator(
             houseNumber: data.get("houseNumber"),
             zip: data.get("zip")
         }
+    }
+    if(cardToEdit) {
+        card.user_id = cardToEdit.user_id;
     }
 
     const isValidEmail = validateEmail();
