@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {CardsRender} from "../Cards/CardsRender";
 import { motion } from "framer-motion"
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import {getCards} from "../../Services/Axios/axios";
 
-export function HomePage() {
+export function HomePage({setToast}) {
     const [cards, setCards] = useState(undefined);
     let cardFromServer = [];
     useEffect(()=>{
@@ -15,26 +15,16 @@ export function HomePage() {
             setCards([firstCard,secondCard,thirdCard])
         }).catch(error => console.log(error));
     },[])
-    function promptToastToRegister() {
-        toast.warning('Please Login first');
+    function handleLikeCard() {
+        setToast(toast.warning('You be able to mark favorite in the Cards page'));
+    }
+    function handlePhoneClick() {
+        setToast(toast.info('This feature will be available in the next version :)'));
     }
     const [move, setMove] = useState(true);
     useEffect(()=>{ const interval = setInterval(()=>{setMove(!move);},1000); return ()=> clearInterval(interval);},[move]);
     return (
         <>
-        <ToastContainer
-            position="top-center"
-            text-center
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-        />
         <div className={"container-fluid p-5 vh-100 bg-image backgroundImageHomePage"}>
             <div className={"bg-opacity-75 text-start w-50 bg-dark text-bg-secondary p-3"}>
                 <h2 className={"mt-2 font-monospace text-decoration-underline"}>Businesses From All Kinds</h2>
@@ -53,8 +43,8 @@ export function HomePage() {
                                     key={index}
                                     cardAlt={card.image.alt}
                                     cardID={card._id}
-                                    favFunction={promptToastToRegister}
-                                    phoneFunction={promptToastToRegister}
+                                    favFunction={handleLikeCard}
+                                    phoneFunction={handlePhoneClick}
                                     isEditMode={false}
                                     cardDesc={card.description}
                                     cardAddress={card.address}

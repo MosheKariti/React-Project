@@ -1,10 +1,10 @@
 import {CardsRender} from "./CardsRender";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import {deleteCard} from "../../Services/Axios/axios";
 
-export function MyCardsView({handleEditCard,loggedInUser}) {
+export function MyCardsView({handleEditCard,loggedInUser, setToast}) {
     const [cards,setCards] = useState(null);
     const [isLoading,setLoading] = useState(true);
 
@@ -26,31 +26,17 @@ export function MyCardsView({handleEditCard,loggedInUser}) {
             await deleteCard(cardId);
             const updatedCards = cards.filter(card => card._id !== cardId);
             setCards(updatedCards);
-            toast.success('Card has been deleted')
+            setToast(toast.success('Card has been deleted'));
         } catch (error) {
-            console.log(error);
+            setToast(toast.error('Delete failed: ' + error.response.data));
         }
     }
     return <>
-        <ToastContainer
-            position="top-center"
-            text-center
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-        />
-
         {!isLoading &&
         <>
             <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
                 {cards.map((card, index) => (
-                    <div id={'my-cards-view-cards-grid'}>
+                    <div key={index + 100} id={'my-cards-view-cards-grid'}>
                         <CardsRender
                             key={index}
                             deleteFunction={handleDeleteCard}

@@ -8,13 +8,13 @@ import Checkbox from '@mui/material/Checkbox';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BiSolidRegistered } from "react-icons/bi"
 import { NewUserValidator } from "../../Services/Users/NewUserValidator";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import {createUser} from "../../Services/Axios/axios";
 import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();
-export function RegistrationPage() {
+export function RegistrationPage({setToast}) {
     const navigate = useNavigate();
     const [isBusiness,setBusiness] = useState(false);
     const [isNameError,setIsNameError] = useState(false);
@@ -24,36 +24,27 @@ export function RegistrationPage() {
 
     async function handleRegister(event) {
         const validatorResponse = NewUserValidator(event,isBusiness,setIsNameError,setIsEmailError,setIsPhoneError,setIsPasswordError);
-        const user = validatorResponse.user;
-        const isValid = validatorResponse.valid;
+        let user;
+        let isValid;
+        if (validatorResponse) {
+            user = validatorResponse.user;
+            isValid = validatorResponse.valid
+        }
         if (isValid) {
             try {
                 await createUser(user);
-                toast.success('RegistrationPage Success');
-                setTimeout(()=>navigate('/sign-in', { replace: true }),2000)
+                setToast(toast.success('Registration Success'));
+                navigate('/sign-in', { replace: true });
             } catch (error) {
-                toast.error('RegistrationPage Failed');
+                setToast(toast.error('Registration Failed: ' + error.response.data));
             }
         } else {
-            toast.error('RegistrationPage Failed');
+            toast.error('Registration Failed');
         }
     }
     return (
         <>
-        <ToastContainer
-            position="top-center"
-            text-center
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-        />
-        <ThemeProvider theme={defaultTheme} style={{}}>
+        <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xl">
                 <Box
                     sx={{
@@ -221,7 +212,7 @@ export function RegistrationPage() {
                                 variant="contained"
                                 sx={{ mt:3 , mb:2 }}
                             >
-                                <Typography style={{textTransform: 'none'}}>Register</Typography>
+                                <Typography className={'text-capitalize'}>Register</Typography>
                             </Button>
                         </div>
                     </Box>

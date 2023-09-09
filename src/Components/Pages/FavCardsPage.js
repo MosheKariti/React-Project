@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {CardsRender} from "../Cards/CardsRender";
 import {handleCardLiking, getCards} from "../../Services/Axios/axios";
+import {toast} from "react-toastify";
 
-export function FavCardsPage({loggedInUser}) {
+export function FavCardsPage({loggedInUser,setToast}) {
     const [cards,setCards] = useState(null);
     const [isLoading,setLoading] = useState(true);
 
@@ -13,10 +14,9 @@ export function FavCardsPage({loggedInUser}) {
             const updatedCards = cards.filter(card => card._id !== cardId);
             setCards(updatedCards);
         } catch (error) {
-            console.log(error)
+            setToast(toast.error('Action failed: ' + error.response.data));
         }
     }
-
     useEffect(() => {
         getCards().then(response => {
             const favoriteCards = response.filter(card => card.likes.includes(loggedInUser._id));
@@ -30,13 +30,19 @@ export function FavCardsPage({loggedInUser}) {
             {!isLoading &&
             <>
                 <div className={'mt-5'}>
-                   {cards.length === 0 && <h1>No Favorite Cards yet</h1>}
+                   {cards.length === 0 && <>
+                       <div className={'text-center'}>
+                           <h1>No Favorite Cards yet</h1>
+                           <h3 className={'mt-3'}> Start adding to favorites from the Cards page</h3>
+                       </div>
+                   </> }
                 </div>
                 <div>
                     <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
-                    {cards.map(card => (
-                        <div style={{flex: '0 0 10%', padding: '10px'}}>
+                    {cards.map((card,index) => (
+                        <div key={index + 100} style={{flex: '0 0 10%', padding: '10px'}}>
                             <CardsRender
+                                key={index}
                                 cardAlt={card.image.alt}
                                 cardID={card._id}
                                 isEditMode={false}

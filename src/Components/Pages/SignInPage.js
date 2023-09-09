@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {PiSignInFill} from "react-icons/pi"
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import {adminMenu, businessMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
 import {login} from "../../Services/Axios/axios";
@@ -14,7 +14,7 @@ import {checkIfIsBlockedUser, HandleFailedEntries} from "../../Services/Users/Ha
 
 const defaultTheme = createTheme();
 
-export function SignInPage({setMenu,setLoggedInUser}) {
+export function SignInPage({setMenu,setLoggedInUser, setToast}) {
     const navigate = useNavigate();
     async function signIn(event) {
         event.preventDefault();
@@ -26,50 +26,30 @@ export function SignInPage({setMenu,setLoggedInUser}) {
             password: data.get('password')
         }
         // check blocked users //
-        let isBlocked = checkIfIsBlockedUser(post.email);
-        console.log(isBlocked);
+        let isBlocked = checkIfIsBlockedUser(post.email,setToast);
         // if user is not blocked - try to fetch data from server //
         if (!isBlocked) {
             try {
                 const userDataResponse = await login(post);
                 setLoggedInUser(userDataResponse);
-                toast.success(`Welcome ${userDataResponse.name.first}!`)
+                setToast(toast.success(`Welcome ${userDataResponse.name.first}!`))
                 if (userDataResponse.isBusiness === true) {
-                    setTimeout(()=>{
-                            navigate('/home', {replace: true});
-                            setMenu(businessMenu);},
-                        2000);
+                        navigate('/home', {replace: true});
+                        setMenu(businessMenu);
                 } else if (userDataResponse.isAdmin === true) {
-                    setTimeout(()=>{
-                            navigate('/crm', {replace: true});
-                            setMenu(adminMenu);},
-                        2000);
+                        navigate('/crm', {replace: true});
+                        setMenu(adminMenu);
                 } else if (!userDataResponse.isBusiness && !userDataResponse.isAdmin){
-                    setTimeout(()=>{
-                            navigate('/home', {replace: true});
-                            setMenu(simpleMenu);},
-                        2000);
+                        navigate('/home', {replace: true});
+                        setMenu(simpleMenu);
                 }
             } catch (error) {
-                HandleFailedEntries(post.email);
+                HandleFailedEntries(post.email,setToast);
             }
         }
     }
     return (
         <>
-        <ToastContainer
-            position="top-center"
-            text-center
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-            />
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
                 <Box

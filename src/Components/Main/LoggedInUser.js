@@ -3,7 +3,7 @@ import { BsPersonSquare } from "react-icons/bs"
 import {useState} from "react";
 import {UpdateUser} from "./UpdateUser";
 
-export function LoggedInUser({loggedInUser}) {
+export function LoggedInUser({loggedInUser, setToast}) {
     const [isEditUser,setIsEditUser] = useState(false);
     function handelEditUser() {
         setIsEditUser(!isEditUser);
@@ -16,7 +16,7 @@ export function LoggedInUser({loggedInUser}) {
                 <div className={"modal-dialog-centered"}>
                     <div className={"modal-content"}>
                         <div>
-                            <UpdateUser loggedInUser={loggedInUser} setIsEditUser={setIsEditUser}></UpdateUser>
+                            <UpdateUser setToast={setToast} loggedInUser={loggedInUser} setIsEditUser={setIsEditUser}></UpdateUser>
                         </div>
                         <Button className={'text-capitalize fs-5'} onClick={()=>setIsEditUser(false)}>Close</Button>
                     </div>

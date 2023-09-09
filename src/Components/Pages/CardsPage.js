@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {CardsRender} from "../Cards/CardsRender";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import {getCards, handleCardLiking} from "../../Services/Axios/axios";
 
-export function CardsPage({loggedInUser}) {
+export function CardsPage({loggedInUser, setToast}) {
     function promptToastOfNotSupportedFeature() {
-        toast.info('This feature will be available in the next version :)');
+        setToast(toast.info('This feature will be available in the next version :)'));
     }
     async function handleCardLike(event) {
         if (loggedInUser) {
@@ -16,10 +16,10 @@ export function CardsPage({loggedInUser}) {
                 card._id === cardId ? {...card, isFavorite: !card.isFavorite} : card);
                 setCards(updateCards);
             } catch (error) {
-                console.log(error)
+                setToast(toast.error('Action failed: ' + error.response.data));
             }
         } else {
-            promptToastOfNotSupportedFeature();
+            setToast(toast.warning('Please login first'));
         }
     }
     const [cards,setCards] = useState(null);
@@ -43,23 +43,10 @@ export function CardsPage({loggedInUser}) {
     }
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                text-center
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
             <div>
                 <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
                     {cards.map((card,index) => (
-                        <div style={{flex: '0 0 10%', padding: '10px'}}>
+                        <div key={index + 100} style={{flex: '0 0 10%', padding: '10px'}}>
                         <CardsRender
                                 key={index}
                                 cardAlt={card.image.alt}

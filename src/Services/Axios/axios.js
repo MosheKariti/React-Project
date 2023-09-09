@@ -58,7 +58,6 @@ export async function changeUserType(userId) {
     return changeTypeResponse.data;
 }
 
-
 //CARDS
 export async function createCard(card,systemToken) {
     let accessToken;

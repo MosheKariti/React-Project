@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {changeUserType, deleteUser, getUsers} from "../../Services/Axios/axios";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import { MdQuestionMark } from "react-icons/md"
 
-export function CRMAdminPage() {
+
+export function CRMAdminPage({setToast}) {
     const [users,setUsers] = useState(undefined);
     const [isDeleteUserDialog,setDeleteUserDialog] = useState(undefined);
     const [userToDelete,setUserToDelete] = useState(undefined);
@@ -15,7 +16,10 @@ export function CRMAdminPage() {
     }
     function handleUserTypeEdit(user) {
         setIsLoading(true);
-        changeUserType(user._id).then(()=> toast.success('Success')).then(getUsersFromServer).
+        changeUserType(user._id).then(()=>{
+            getUsersFromServer();
+            setToast(toast.success('Type changed successfully'));
+        }).
         catch(error => console.log(error));
         setIsLoading(false);
     }
@@ -25,11 +29,11 @@ export function CRMAdminPage() {
     }
     function handleUserDelete() {
         deleteUser(userToDelete._id).then(() => {
-            toast.success('The user ' + '"' + userToDelete.name.first + ' ' + userToDelete.name.last + '"' + ' was deleted');
+            setToast(toast.success('The user ' + '"' + userToDelete.name.first + ' ' + userToDelete.name.last + '"' + ' was deleted'));
             setDeleteUserDialog(false);
             getUsersFromServer();
         }).catch(error => {
-            toast.error(error);
+            setToast(toast.error('Action failed ' + error.response.data));
         });
     }
     function checkType(user) {
@@ -43,19 +47,6 @@ export function CRMAdminPage() {
     }
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                text-center
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
            <h1 className={'text-center mt-3 mb-5'}>Users Management</h1>
             {users &&
             <>
@@ -73,7 +64,6 @@ export function CRMAdminPage() {
                             </thead>
                             <tbody>
                             {users.map((user) => (
-                                <>
                                 <tr style={{height:'50px', borderBottom:'solid darkGrey'}} key={user._id}>
                                     <td style={{width:'250px'}}>{user.name.first}</td>
                                     <td style={{width:'250px'}}>{user.name.last}</td>
@@ -81,13 +71,13 @@ export function CRMAdminPage() {
                                     <td style={{width:'250px'}}>{user.phone}</td>
                                     <td style={{width:'250px'}}>{user.email}</td>
                                     {!user.isAdmin &&
-                                        <>
-                                        <button onClick={()=>handleUserTypeEdit(user)} className={'btn m-1 btn-primary'} style={{width:'120px'}}>{user.isBusiness ? 'Set Simple' : 'Set Business'}</button>
-                                        <button onClick={()=>deleteUserDialog(user)} className={'btn m-1 btn-danger'} style={{width:'120px'}}>Delete</button>
-                                        </>
+                                        <td>
+                                            <button onClick={()=>handleUserTypeEdit(user)} className={'btn m-1 btn-primary'} style={{width:'120px'}}>{user.isBusiness ? 'Set Simple' : 'Set Business'}</button>
+                                            <button onClick={()=>deleteUserDialog(user)} className={'btn m-1 btn-danger'} style={{width:'120px'}}>Delete</button>
+                                        </td>
                                     }
                                 </tr>
-                                </>
+
                             ))}
                             </tbody>
                         </table>

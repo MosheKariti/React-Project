@@ -4,28 +4,66 @@ import Router from "./Components/Router/Router";
 import {Header} from "./Components/Main/Header";
 import {Footer} from "./Components/Main/Footer";
 import {useEffect, useState} from "react";
-import {guestMenu} from "./Services/Menu/MenusHandler";
+import {guestMenu, adminMenu, businessMenu, simpleMenu} from "./Services/Menu/MenusHandler";
 import "./Styles/homePage.css"
 import "./Styles/cards.css"
 import "./Styles/components.css"
 import {initDb} from "./Services/FirstRun/initDb";
+import {HandleAccessToken} from "./Services/Users/HandleAccessToken";
+import {ToastContainer} from "react-toastify";
 
 
 
 function App() {
     useEffect(()=>initDb(),[]);
-    const [loggedInUser,setLoggedIntUser] = useState(null);
-    const [menu, setMenu] = useState(guestMenu);
+    const [toast,setToast] = useState('');
+    const [isLoading,setIsLoading] = useState(true);
+    const [menu,setMenu] = useState(guestMenu);
     const [path,setPath] = useState(location.path);
+    const [loggedInUser,setLoggedInUser] = useState(undefined);
+    useEffect(()=>{
+        HandleAccessToken()
+            .then(userResponse => {
+                setLoggedInUser(userResponse);
+                if (userResponse) {
+                    if (userResponse.isAdmin) {
+                        setMenu(adminMenu);
+                    } else if (userResponse.isBusiness) {
+                        setMenu(businessMenu);
+                    } else {
+                        setMenu(simpleMenu);
+                    }
+                }
+                setIsLoading(false);
+            })
+            .catch((error) => console.log(error));
+    }, []);
+
     return (
         <>
-        <div>
-            <BrowserRouter>
-                <Header path={path} setPath={setPath} menu={menu} setMenu={setMenu} loggedInUser={loggedInUser} setLoggedInUser={setLoggedIntUser}></Header>
-                <Router setMenu={setMenu} setPath={setPath} loggedInUser={loggedInUser} setLoggedInUser={setLoggedIntUser}/>
-                <Footer/>
-            </BrowserRouter>
-        </div>
+            {isLoading && ''}
+            {!isLoading && <>
+                <div>
+                    <ToastContainer
+                        position="top-center"
+                        text-center
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="dark"
+                    />
+                    <BrowserRouter>
+                        <Header setToast={setToast} path={path} setPath={setPath} menu={menu} setMenu={setMenu} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}></Header>
+                        <Router setToast={setToast} setMenu={setMenu} setPath={setPath} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+                        <Footer/>
+                    </BrowserRouter>
+                </div>
+                </>}
         </>
   );
 }

@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import {CardForm} from "../Cards/CardForm";
 import {MyCardsView} from "../Cards/MyCardsView";
 
-export function MyCardsPage({loggedInUser}) {
+export function MyCardsPage({loggedInUser, setToast}) {
     const [pageState,setPageState] = useState('view');
     const [cardToEdit,setCardToEdit] = useState(null);
     let [formMode,setFormMode] = useState('');
@@ -25,13 +25,13 @@ export function MyCardsPage({loggedInUser}) {
             {pageState === 'view' &&
             <>
                 <Button size={'large'} onClick={handleCreateCardBtn}>Create Card</Button>
-                <MyCardsView loggedInUser={loggedInUser} handleEditCard={handleEditCard} ></MyCardsView>
+                <MyCardsView setToast={setToast} loggedInUser={loggedInUser} handleEditCard={handleEditCard} ></MyCardsView>
             </>
             }
             {pageState === 'cardForm' &&
                 <>
             <Button size={'large'} onClick={handleBackBtn}>Back</Button>
-                    <CardForm setPageState={setPageState} cardToEdit={cardToEdit} formMode={formMode}></CardForm>
+                    <CardForm setToast={setToast} setPageState={setPageState} cardToEdit={cardToEdit} formMode={formMode}></CardForm>
                 </>
             }
         </>

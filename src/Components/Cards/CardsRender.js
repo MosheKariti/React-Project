@@ -1,7 +1,7 @@
 import Card from "@mui/material/Card";
 import { CardContent, CardMedia } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import React, {useState} from "react";
+import React from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";

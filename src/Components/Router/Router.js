@@ -11,17 +11,17 @@ import {FavCardsPage} from "../Pages/FavCardsPage";
 import {CRMAdminPage} from "../Pages/CRMAdminPage";
 
 
-function Router({setMenu,setLoggedInUser, loggedInUser, setPath}) {
+function Router({setMenu,setLoggedInUser, loggedInUser, setPath, setToast}) {
     return (
         <Routes>
-            <Route path={ROUTES.HOME} element={<HomePage/>}/>
-            <Route path={ROUTES.CARDS} element={<CardsPage loggedInUser={loggedInUser}/>}/>
+            <Route path={ROUTES.HOME} element={<HomePage setToast={setToast}/>}/>
+            <Route path={ROUTES.CARDS} element={<CardsPage setToast={setToast} loggedInUser={loggedInUser}/>}/>
             <Route path={ROUTES.ABOUT} element={<AboutPage/>}/>
-            <Route path={ROUTES.SIGNIN} element={<SignInPage setPath={setPath} setMenu={setMenu} setLoggedInUser={setLoggedInUser}/>}/>
-            <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
-            <Route path={ROUTES.MYCARDS} element={<MyCardsPage loggedInUser={loggedInUser}/>}/>
-            <Route path={ROUTES.FAVCARDS} element={<FavCardsPage loggedInUser={loggedInUser}/>}/>
-            <Route path={ROUTES.CRM} element={<CRMAdminPage/>}/>
+            <Route path={ROUTES.SIGNIN} element={<SignInPage setToast={setToast} setPath={setPath} setMenu={setMenu} setLoggedInUser={setLoggedInUser}/>}/>
+            <Route path={ROUTES.REGISTRATION} element={<RegistrationPage setToast={setToast}/>}/>
+            <Route path={ROUTES.MYCARDS} element={<MyCardsPage setToast={setToast} loggedInUser={loggedInUser}/>}/>
+            <Route path={ROUTES.FAVCARDS} element={<FavCardsPage setToast={setToast} loggedInUser={loggedInUser}/>}/>
+            <Route path={ROUTES.CRM} element={<CRMAdminPage setToast={setToast}/>}/>
 
             <Route path="*" element={<HomePage/>}/>
 

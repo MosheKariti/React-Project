@@ -18,7 +18,7 @@ function NavItem({setPath, path, label, to, color, icon, setMenu, setLoggedInUse
                 </NavBarLink>
             }
             {label !== 'Sign Out' &&
-                <NavBarLink  to={to} color={color}>
+                <NavBarLink to={to} color={color}>
                     <Button style={{borderRadius:'0px', borderBottom: path === to ? 'solid':''}}
                             onClick={() => setPath(to)}>
                         {icon}

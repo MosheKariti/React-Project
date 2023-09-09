@@ -1,4 +1,4 @@
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -11,7 +11,7 @@ import {createCard, updateCard} from "../../Services/Axios/axios";
 import {NewCardValidator} from "../../Services/Cards/NewCardValidator";
 const defaultTheme = createTheme();
 
-export function CardForm({cardToEdit,setPageState, formMode}) {
+export function CardForm({cardToEdit,setPageState, formMode ,setToast}) {
     const cardToEditId = cardToEdit ? cardToEdit._id : undefined;
     const [isTitleError,setIsTitleError] = useState(false);
     const [isSubtitleError,setIsSubtitleError] = useState(false);
@@ -23,28 +23,20 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
     const [isStreetError,setIsStreetError] = useState(false);
     const [isHouseNumberError,setIsHouseNumberError] = useState(false);
 
-    const formColumnsStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        marginRight: '20px', // Adjust spacing between columns
-        maxWidth:'450px',
-        flex: 1,
-    }
-
     const [initialValue,setInitialValue] = useState([
-        {title: formMode === 'edit' ? cardToEdit.title : null},
-        {subtitle: formMode === 'edit' ?  cardToEdit.subtitle : null},
-        {description: formMode === 'edit' ? cardToEdit.description : null},
-        {phone: formMode === 'edit' ? cardToEdit.phone : null},
-        {email: formMode === 'edit' ? cardToEdit.email : null},
-        {web: formMode === 'edit' ? cardToEdit.web : null},
-        {image: formMode === 'edit' ? cardToEdit.image.url : null},
-        {state: formMode === 'edit' ? cardToEdit.address.state : null},
-        {country: formMode === 'edit' ? cardToEdit.address.country : null},
-        {city: formMode === 'edit' ? cardToEdit.address.city : null},
-        {street: formMode === 'edit' ? cardToEdit.address.street : null},
-        {houseNumber: formMode === 'edit' ? cardToEdit.address.houseNumber : null},
-        {zip: formMode === 'edit' ? cardToEdit.address.zip : null}
+        {title: formMode === 'edit' ? cardToEdit.title : ''},
+        {subtitle: formMode === 'edit' ?  cardToEdit.subtitle : ''},
+        {description: formMode === 'edit' ? cardToEdit.description : ''},
+        {phone: formMode === 'edit' ? cardToEdit.phone : ''},
+        {email: formMode === 'edit' ? cardToEdit.email : ''},
+        {web: formMode === 'edit' ? cardToEdit.web : ''},
+        {image: formMode === 'edit' ? cardToEdit.image.url : ''},
+        {state: formMode === 'edit' ? cardToEdit.address.state : ''},
+        {country: formMode === 'edit' ? cardToEdit.address.country : ''},
+        {city: formMode === 'edit' ? cardToEdit.address.city : ''},
+        {street: formMode === 'edit' ? cardToEdit.address.street : ''},
+        {houseNumber: formMode === 'edit' ? cardToEdit.address.houseNumber : ''},
+        {zip: formMode === 'edit' ? cardToEdit.address.zip : ''}
     ]);
     function handleInputChange(event,index) {
         const copyArray = [...initialValue];
@@ -56,7 +48,7 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
         {required: true, name:'title',label:'Title',type:'text',id:'title',error:isTitleError,validationError:'Title is Required',value:initialValue[0].title, index:0},
         {required: true, name:'subtitle',label:'Subtitle',type:'text',id:'subtitle',error:isSubtitleError,validationError:'Subtitle is Required',value:initialValue[1].subtitle, index:1},
         {required: true, name:'description',label:'Description',type:'text',id:'description',error:isDescriptionError,validationError:'Description is Required',value:initialValue[2].description, index:2},
-        {required: true, name:'phone',label:'Phone',type:'number',id:'phone',error:isPhoneError,validationError:'Phone is Required',value:initialValue[3].phone, index:3},
+        {required: true, name:'phone',label:'Phone',type:'number',id:'phone',error:isPhoneError,validationError:'Phone is Required, only numbers',value:initialValue[3].phone, index:3},
         {required: true, name:'email',label:'Email',type:'email',id:'email',error:isEmailError,validationError:'Email is Required',value:initialValue[4].email, index:4},
         {required: false, name:'web',label:'Web',type:'text',id:'web',value:initialValue[5].web, index:5},
         {required: false, name:'image',label:'Image',type:'text',id:'image',value:initialValue[6].image, index:6},
@@ -76,46 +68,37 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
             event,setIsTitleError,setIsSubtitleError,setIsDescriptionError,setIsPhoneError,setIsEmailError,
             setIsCountryError, setIsCityError,setIsStreetError,setIsHouseNumberError,cardToEdit
         );
-        const card = validatorResponse.card;
-        const isValid = validatorResponse.valid;
+        let card;
+        let isValid;
+        if (validatorResponse) {
+            card = validatorResponse.card;
+            isValid = validatorResponse.valid;
+        }
         if (isValid) {
             if (formMode === 'create') {
                 try {
                     await createCard(card);
-                    toast.success('Card has been created');
-                    setTimeout(()=>setPageState('view'),2000)
+                    setToast(toast.success('Card has been created'));
+                    setPageState('view');
                 } catch (error) {
-                    toast.error('Creation failed');
+                    setToast(toast.error('Creation failed: ' + error.response.data));
                 }
             } else if (formMode === 'edit') {
                 try {
                     await updateCard(card,cardToEditId);
-                    toast.success('Card has been created');
-                    setTimeout(()=>setPageState('view'),2000)
+                    setToast(toast.success('Successfully updated'));
+                    setPageState('view');
                 } catch (error) {
-                    toast.error('Creation failed');
+                    setToast(toast.error('Update failed: ' + error.response.data));
                 }
             }
 
         } else {
-            toast.error('Card is not valid');
+            setToast(toast.error('Card is not valid'));
         }
     }
     return <>
-            <ToastContainer
-                position="top-center"
-                text-center
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
-            <ThemeProvider theme={defaultTheme} style={{}}>
+            <ThemeProvider theme={defaultTheme}>
                 <Container component="main" maxWidth="xl">
                     <Box
                         sx={{
@@ -136,10 +119,11 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
                             onSubmit={handleSubmit}
                         >
                             <div className={'display-flex'}>
-                                <div style={formColumnsStyle}>
-                                    {firstColumn.map((field) =>(
-                                        <>
+                                <div className={'form-columns'}>
+                                    {firstColumn.map((field,index) => (
+                                        <div key={index + 100}>
                                             <TextField
+                                                key={index}
                                                 margin="normal"
                                                 fullWidth
                                                 required={field.required}
@@ -151,15 +135,17 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
                                                 value={field.value}
                                                 error={field.error}
                                             />
-                                            {field.error && <label className={"text-danger mt-0"}>{field.validationError}</label>}
-                                        </>
+                                            {field.error && <label key={index + 1000} className={"text-danger mt-0"}>{field.validationError}</label>}
+                                        </div>
+
                                     ))}
 
                                 </div>
-                                <div style={formColumnsStyle}>
-                                    {secondColumn.map((field) =>(
-                                        <>
+                                <div className={'form-columns'}>
+                                    {secondColumn.map((field,index) =>
+                                        <div key={index + 100}>
                                             <TextField
+                                                key={index}
                                                 margin="normal"
                                                 fullWidth
                                                 required={field.required}
@@ -171,9 +157,9 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
                                                 value={field.value}
                                                 error={field.error}
                                             />
-                                            {field.error && <label className={"text-danger mt-0"}>{field.validationError}</label>}
-                                        </>
-                                    ))}
+                                            {field.error && <label key={index +1000} className={"text-danger mt-0"}>{field.validationError}</label>}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                             <div>
@@ -187,7 +173,6 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
                                 </Button>
                             </div>
                         </Box>
-
                     </Box>
                 </Container>
             </ThemeProvider>
