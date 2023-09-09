@@ -2,6 +2,7 @@ import {toast} from "react-toastify";
 export function HandleFailedEntries(userEmail) {
     const failedEntriesString = localStorage.getItem('failedEntries');
     const failedEntries = JSON.parse(failedEntriesString);
+
     if (!failedEntries || failedEntries.length === 0) {
         const failedEntries = [{user: userEmail,firstTry:new Date()}];
         localStorage.setItem('failedEntries',JSON.stringify(failedEntries));
@@ -18,24 +19,47 @@ export function HandleFailedEntries(userEmail) {
             localStorage.setItem('failedEntries',JSON.stringify(failedEntries));
             toast.error('Last try before you got blocked!')
         } else if (failedEntriesOfCurrentUser.length === 2){
-            failedEntries.push({user: userEmail,thirdTry: new Date()});
+            failedEntries.push({user: userEmail,thirdTry: new Date(),isBlocked: true});
             localStorage.setItem('failedEntries',JSON.stringify(failedEntries));
             toast.error('Your user is blocked for the next 24 hours');
         } else if (failedEntriesOfCurrentUser.length === 3) {
-            const lastDateInUtcString = failedEntriesOfCurrentUser[2].thirdTry.toString();
-            const lastDateInUtc = new Date(lastDateInUtcString);
-            lastDateInUtc.setDate(lastDateInUtc.getDate() + 1);
-            const lastDateInUtcPlusADay = lastDateInUtc;
+            const lastDateInUtcPlusADay = getTimeForRemoveBlock(failedEntriesOfCurrentUser[2].thirdTry);
             const currentUtcTime = new Date();
             if (currentUtcTime >= lastDateInUtcPlusADay) {
                 const updatedEntries = failedEntries.filter(entry => entry.user !== userEmail);
-                console.log(updatedEntries);
                 updatedEntries.push({user: userEmail,thirdTry: new Date()});
                 localStorage.setItem('failedEntries',JSON.stringify(updatedEntries));
             } else {
-                console.log("Less than 24 hours have passed since the last date.");
-                toast.error('24 hours have not passed yet, wait till ' + lastDateInUtcPlusADay);
+                printError(lastDateInUtcPlusADay);
             }
         }
     }
+}
+export function checkIfIsBlockedUser(userEmail) {
+    let isBlocked = false;
+    const failedEntries = JSON.parse(localStorage.getItem('failedEntries'));
+    if (failedEntries) {
+        const blockedUsers = failedEntries.filter(entry => entry.isBlocked);
+        blockedUsers.forEach((blockedUser) => {
+            if (blockedUser.user === userEmail) {
+                const lastDateInUtcPlusADay = getTimeForRemoveBlock(blockedUser.thirdTry);
+                const currentUtcTime = new Date();
+                if (currentUtcTime < lastDateInUtcPlusADay) {
+                    printError(lastDateInUtcPlusADay);
+                    isBlocked = true;
+                }
+            }
+        });
+        return isBlocked;
+    }
+}
+function getTimeForRemoveBlock(lastEntryDate) {
+    const lastDateInUtcString = lastEntryDate.toString();
+    const lastDateInUtc = new Date(lastDateInUtcString);
+    lastDateInUtc.setDate(lastDateInUtc.getDate() + 1);
+    return lastDateInUtc;
+}
+function printError(date) {
+    const errorText = date.toLocaleString('he-IL');
+    toast.error('24 hours have not passed yet, wait till ' + errorText)
 }

@@ -50,7 +50,7 @@ export function MyCardsView({handleEditCard,loggedInUser}) {
         <>
             <div className={"container-fluid content p-3 bg-opacity-75 d-flex flex-wrap"}>
                 {cards.map((card, index) => (
-                    <div style={{flex: '0 0 10%', padding: '10px'}}>
+                    <div id={'my-cards-view-cards-grid'}>
                         <CardsRender
                             key={index}
                             deleteFunction={handleDeleteCard}

@@ -3,12 +3,17 @@ import { BrowserRouter } from "react-router-dom";
 import Router from "./Components/Router/Router";
 import {Header} from "./Components/Main/Header";
 import {Footer} from "./Components/Main/Footer";
-import {useState} from "react";
-import {initCards} from "./Services/Cards/InitCards";
+import {useEffect, useState} from "react";
 import {guestMenu} from "./Services/Menu/MenusHandler";
+import "./Styles/homePage.css"
+import "./Styles/cards.css"
+import "./Styles/components.css"
+import {initDb} from "./Services/FirstRun/initDb";
+
+
 
 function App() {
-    initCards();
+    useEffect(()=>initDb(),[]);
     const [loggedInUser,setLoggedIntUser] = useState(null);
     const [menu, setMenu] = useState(guestMenu);
     const [path,setPath] = useState(location.path);

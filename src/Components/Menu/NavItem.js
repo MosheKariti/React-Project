@@ -22,7 +22,7 @@ function NavItem({setPath, path, label, to, color, icon, setMenu, setLoggedInUse
                     <Button style={{borderRadius:'0px', borderBottom: path === to ? 'solid':''}}
                             onClick={() => setPath(to)}>
                         {icon}
-                        <Typography style={{textTransform: 'none', fontWeight: "bold", color: "#404756"}}
+                        <Typography className={'text-capitalize fw-bold'} style={{ color: "#404756"}}
                                     mt={0.3}>{label}</Typography>
                     </Button>
                 </NavBarLink>

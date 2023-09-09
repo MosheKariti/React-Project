@@ -3,8 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import { HomePage } from "../Pages/HomePage";
 import { AboutPage } from "../Pages/AboutPage";
 import { SignInPage } from "../Pages/SignInPage";
-import { Registration } from "../Pages/Registration";
-import ROUTES from "../../RouterModel";
+import { RegistrationPage } from "../Pages/RegistrationPage";
+import ROUTES from "./RouterModel";
 import {MyCardsPage} from "../Pages/MyCardsPage";
 import {CardsPage} from "../Pages/CardsPage";
 import {FavCardsPage} from "../Pages/FavCardsPage";
@@ -18,7 +18,7 @@ function Router({setMenu,setLoggedInUser, loggedInUser, setPath}) {
             <Route path={ROUTES.CARDS} element={<CardsPage loggedInUser={loggedInUser}/>}/>
             <Route path={ROUTES.ABOUT} element={<AboutPage/>}/>
             <Route path={ROUTES.SIGNIN} element={<SignInPage setPath={setPath} setMenu={setMenu} setLoggedInUser={setLoggedInUser}/>}/>
-            <Route path={ROUTES.REGISTRATION} element={<Registration/>}/>
+            <Route path={ROUTES.REGISTRATION} element={<RegistrationPage/>}/>
             <Route path={ROUTES.MYCARDS} element={<MyCardsPage loggedInUser={loggedInUser}/>}/>
             <Route path={ROUTES.FAVCARDS} element={<FavCardsPage loggedInUser={loggedInUser}/>}/>
             <Route path={ROUTES.CRM} element={<CRMAdminPage/>}/>

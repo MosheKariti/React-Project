@@ -1,5 +1,3 @@
-import "../../Styles/Style.css"
-import { HandleAccessToken } from "../../Services/Users/HandleAccessToken";
 import Button from "@mui/material/Button";
 import { BsPersonSquare } from "react-icons/bs"
 import {useState} from "react";
@@ -20,7 +18,7 @@ export function LoggedInUser({loggedInUser}) {
                         <div>
                             <UpdateUser loggedInUser={loggedInUser} setIsEditUser={setIsEditUser}></UpdateUser>
                         </div>
-                        <Button onClick={()=>setIsEditUser(false)}>Close</Button>
+                        <Button className={'text-capitalize fs-5'} onClick={()=>setIsEditUser(false)}>Close</Button>
                     </div>
                 </div>
             </div>
@@ -28,10 +26,10 @@ export function LoggedInUser({loggedInUser}) {
             }
             {loggedInUser &&
                 <>
-                    <div style={{cursor:'pointer'}} className={'p-2 logged-in-user'}>
+                    <div className={'p-2 logged-in-user cursor-pointer'}>
                         <BsPersonSquare onClick={handelEditUser} size={30}/>
                     </div>
-                    <div className={'logged-in-user'}>
+                    <div className={'logged-in-user text-capitalize'}>
                             {loggedInUser.name.first}
                     </div>
                 </>

@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import NavBarLink from "../Components/Menu/NavBarLink";
-import ROUTES from "../RouterModel";
+import ROUTES from "../Components/Router/RouterModel";
 
 const Logo = () => {
     return (

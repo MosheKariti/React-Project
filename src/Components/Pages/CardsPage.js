@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {CardsRender} from "../Cards/CardsRender";
-import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
-import {handleCardLiking} from "../../Services/Axios/axios";
+import {getCards, handleCardLiking} from "../../Services/Axios/axios";
 
 export function CardsPage({loggedInUser}) {
-    function promptToastToRegister() {
-        toast.warning('Please Login first');
+    function promptToastOfNotSupportedFeature() {
+        toast.info('This feature will be available in the next version :)');
     }
     async function handleCardLike(event) {
         if (loggedInUser) {
@@ -20,21 +19,21 @@ export function CardsPage({loggedInUser}) {
                 console.log(error)
             }
         } else {
-            promptToastToRegister();
+            promptToastOfNotSupportedFeature();
         }
     }
     const [cards,setCards] = useState(null);
     const [isLoading,setLoading] = useState(true);
 
     useEffect(() => {
-            axios.get('http://localhost:8181/cards').then(response => {
-                if(loggedInUser) {
-                    const updateCards = response.data.map(card =>
+        getCards().then(response => {
+        if(loggedInUser) {
+                    const updateCards = response.map(card =>
                     card.likes.includes(loggedInUser._id) ? {...card, isFavorite: !card.isFavorite} : card
                     );
                     setCards(updateCards);
                 } else {
-                    setCards(response.data);
+                    setCards(response);
                 }
                 setLoading(false);
             }).catch (error => console.log(error));
@@ -72,7 +71,7 @@ export function CardsPage({loggedInUser}) {
                                 cardImageUrl={card.image.url}
                                 isFavorite={card.isFavorite}
                                 favFunction={handleCardLike}
-                                phoneFunction={promptToastToRegister}
+                                phoneFunction={promptToastOfNotSupportedFeature}
                             ></CardsRender>
                         </div>
                     ))}

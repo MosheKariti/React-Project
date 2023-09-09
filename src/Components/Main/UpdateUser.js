@@ -7,8 +7,7 @@ import { BsPersonSquare } from "react-icons/bs"
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {NewUserValidator} from "../../Services/Users/NewUserValidator";
-import {createUser, updateUser} from "../../Services/Axios/axios";
+import {updateUser} from "../../Services/Axios/axios";
 import {UpdateUserValidator} from "../../Services/Users/UpdateUserValidator";
 const defaultTheme = createTheme();
 
@@ -22,7 +21,8 @@ export function UpdateUser({loggedInUser,setIsEditUser}) {
     const [isHouseNumberError,setIsHouseNumberError] = useState(false);
     const [isZipError,setIsZipError] = useState(false);
     async function handleUseUpdate(event) {
-        const validatorResponse = UpdateUserValidator(loggedInUser,event,setIsNameError,setIsEmailError,setIsPhoneError,setIsCountryError,setIsCityError,setIsStreetError,setIsHouseNumberError,setIsZipError);
+        const validatorResponse = UpdateUserValidator(
+            loggedInUser,event,setIsNameError,setIsEmailError,setIsPhoneError,setIsCountryError,setIsCityError,setIsStreetError,setIsHouseNumberError,setIsZipError);
         const user = validatorResponse.user;
         const isValid = validatorResponse.valid;
         if (isValid) {
@@ -51,13 +51,6 @@ export function UpdateUser({loggedInUser,setIsEditUser}) {
        houseNumber: loggedInUser.address.houseNumber,
        zip: loggedInUser.address.zip
    }
-    const formColumnsStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        marginRight: '20px', // Adjust spacing between columns
-        maxWidth:'450px',
-        flex: 1,
-    }
     const [fieldValues, setFieldValues] = useState(initialFieldValues);
     function handleInputChange(fieldName, value) {
         setFieldValues(prevValues => ({
@@ -107,7 +100,7 @@ export function UpdateUser({loggedInUser,setIsEditUser}) {
                     }}
                 >
                     <BsPersonSquare size={50} style={{ margin:"2", marginTop:"5"}} />
-                    <Typography component="h1" variant="h5" mt={1} style={{marginBottom:'30px'}} >
+                    <Typography component="h1" variant="h5" mt={1} className={'mb-4'} >
                        Update Details
                     </Typography>
                     <Box
@@ -116,8 +109,8 @@ export function UpdateUser({loggedInUser,setIsEditUser}) {
                         sx={{ mt: 2 ,'& .MuiTextField-root': { mt: 2, mb:0, width: '50ch' }}}
                         onSubmit={handleUseUpdate}
                     >
-                        <div style={{display:'flex'}}>
-                            <div style={formColumnsStyle}>
+                        <div className={'display-flex'}>
+                            <div className={'form-columns'}>
                                 {firstColumn.map((field) =>(
                                     <>
                                         <TextField
@@ -135,9 +128,8 @@ export function UpdateUser({loggedInUser,setIsEditUser}) {
                                         {field.error && <label className={"text-danger mt-0"}>{field.validationError}</label>}
                                     </>
                                 ))}
-
                             </div>
-                            <div style={formColumnsStyle}>
+                            <div className={'form-columns'}>
                                 {secondColumn.map((field) =>(
                                     <>
                                         <TextField
@@ -164,11 +156,10 @@ export function UpdateUser({loggedInUser,setIsEditUser}) {
                                 variant="contained"
                                 sx={{ mt:3 , mb:2 }}
                             >
-                                <Typography style={{textTransform: 'none'}}>Update</Typography>
+                                <Typography className={'text-capitalize'}>Update</Typography>
                             </Button>
                         </div>
                     </Box>
-
                 </Box>
             </Container>
         </ThemeProvider>

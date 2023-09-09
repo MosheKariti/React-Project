@@ -18,8 +18,7 @@ export function FavCardsPage({loggedInUser}) {
     }
 
     useEffect(() => {
-        getCards()
-            .then(response => {
+        getCards().then(response => {
             const favoriteCards = response.filter(card => card.likes.includes(loggedInUser._id));
             setCards(favoriteCards);
             setLoading(false);

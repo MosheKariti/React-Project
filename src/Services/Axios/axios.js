@@ -5,7 +5,7 @@ import jwtDecode from "jwt-decode";
 export async function createUser(user) {
     await axios.post('http://localhost:8181/users', user)
 }
-export async function getUser(post) {
+export async function login(post) {
     const loginResponse = await axios.post(`http://localhost:8181/users/login`, post);
     const accessToken = loginResponse.data;
     const user = await getUserDetailsByToken(accessToken);
@@ -60,8 +60,13 @@ export async function changeUserType(userId) {
 
 
 //CARDS
-export async function createCard(card) {
-    const accessToken = localStorage.getItem('accessToken');
+export async function createCard(card,systemToken) {
+    let accessToken;
+    if (systemToken) {
+        accessToken = systemToken;
+    } else {
+        accessToken = localStorage.getItem('accessToken');
+    }
     await axios.post('http://localhost:8181/cards', card,{
         headers: {
             'x-auth-token': accessToken,

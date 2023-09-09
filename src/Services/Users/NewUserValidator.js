@@ -1,4 +1,4 @@
-import {validEmail, validPassword, validPhone} from "../../Components/Pages/Regex";
+import {validEmail, validPassword, validPhone} from "../Regex/Regex";
 export function NewUserValidator(event, isBusiness, setIsNameError, setIsEmailError, setIsPhoneError, setIsPasswordError) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

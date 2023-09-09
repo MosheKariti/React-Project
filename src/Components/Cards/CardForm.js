@@ -125,8 +125,8 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
                             alignItems: 'center',
                         }}
                     >
-                        <PiCardsBold size={50} style={{ margin:"2", marginTop:"5"}} />
-                        <Typography component="h1" variant="h5" mt={1} style={{marginBottom:'30px'}} >
+                        <PiCardsBold size={50} className={'card-form-icon'}/>
+                        <Typography component="h1" variant="h5" mt={1}>
                             {formMode === 'edit' ? <>Edit Card</> : <>Create Card</>}
                         </Typography>
                         <Box
@@ -135,7 +135,7 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
                             sx={{ mt: 2 ,'& .MuiTextField-root': { mt: 2, mb:0, width: '50ch' }}}
                             onSubmit={handleSubmit}
                         >
-                            <div style={{display:'flex'}}>
+                            <div className={'display-flex'}>
                                 <div style={formColumnsStyle}>
                                     {firstColumn.map((field) =>(
                                         <>
@@ -183,7 +183,7 @@ export function CardForm({cardToEdit,setPageState, formMode}) {
                                     variant="contained"
                                     sx={{ mt:3 , mb:2 }}
                                 >
-                                    <Typography style={{textTransform: 'none'}}>{formMode === 'edit' ? <>Update Card</> : <>Create Card</>}</Typography>
+                                    <Typography className={'text-capitalize'}>{formMode === 'edit' ? <>Update Card</> : <>Create Card</>}</Typography>
                                 </Button>
                             </div>
                         </Box>

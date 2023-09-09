@@ -8,13 +8,13 @@ import {PiSignInFill} from "react-icons/pi"
 import {toast, ToastContainer} from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import {adminMenu, businessMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
-import {getUser} from "../../Services/Axios/axios";
+import {login} from "../../Services/Axios/axios";
 import 'react-toastify/dist/ReactToastify.css';
-import {HandleFailedEntries} from "../../Services/Users/HandleFailedEntries";
+import {checkIfIsBlockedUser, HandleFailedEntries} from "../../Services/Users/HandleFailedEntries";
 
 const defaultTheme = createTheme();
 
-export function SignInPage({setMenu,setPath,setLoggedInUser}) {
+export function SignInPage({setMenu,setLoggedInUser}) {
     const navigate = useNavigate();
     async function signIn(event) {
         event.preventDefault();
@@ -25,30 +25,34 @@ export function SignInPage({setMenu,setPath,setLoggedInUser}) {
             email: data.get('email'),
             password: data.get('password')
         }
-
-        // try to fetch data from server //
-        try {
-            const userDataResponse = await getUser(post);
-            setLoggedInUser(userDataResponse);
-            toast.success(`Welcome ${userDataResponse.name.first}!`)
-            if (userDataResponse.isBusiness === true) {
-                setTimeout(()=>{
-                    navigate('/home', {replace: true});
-                    setMenu(businessMenu);},
-                    2000);
-            } else if (userDataResponse.isAdmin === true) {
-                setTimeout(()=>{
-                    navigate('/crm', {replace: true});
-                    setMenu(adminMenu);},
-                2000);
-            } else if (!userDataResponse.isBusiness && !userDataResponse.isAdmin){
-                setTimeout(()=>{
-                    navigate('/home', {replace: true});
-                    setMenu(simpleMenu);},
-                2000);
+        // check blocked users //
+        let isBlocked = checkIfIsBlockedUser(post.email);
+        console.log(isBlocked);
+        // if user is not blocked - try to fetch data from server //
+        if (!isBlocked) {
+            try {
+                const userDataResponse = await login(post);
+                setLoggedInUser(userDataResponse);
+                toast.success(`Welcome ${userDataResponse.name.first}!`)
+                if (userDataResponse.isBusiness === true) {
+                    setTimeout(()=>{
+                            navigate('/home', {replace: true});
+                            setMenu(businessMenu);},
+                        2000);
+                } else if (userDataResponse.isAdmin === true) {
+                    setTimeout(()=>{
+                            navigate('/crm', {replace: true});
+                            setMenu(adminMenu);},
+                        2000);
+                } else if (!userDataResponse.isBusiness && !userDataResponse.isAdmin){
+                    setTimeout(()=>{
+                            navigate('/home', {replace: true});
+                            setMenu(simpleMenu);},
+                        2000);
+                }
+            } catch (error) {
+                HandleFailedEntries(post.email);
             }
-        } catch (error) {
-            HandleFailedEntries(post.email);
         }
     }
     return (

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {changeUserType, deleteUser, getUsers} from "../../Services/Axios/axios";
-import {UpdateUser} from "../Main/UpdateUser";
-import Button from "@mui/material/Button";
 import {toast, ToastContainer} from "react-toastify";
+import { MdQuestionMark } from "react-icons/md"
 
 export function CRMAdminPage() {
     const [users,setUsers] = useState(undefined);
@@ -26,7 +25,7 @@ export function CRMAdminPage() {
     }
     function handleUserDelete() {
         deleteUser(userToDelete._id).then(() => {
-            toast.success('The user ' + '"' + userToDelete.name.first + ' ' + userToDelete.name.last + '"' + ' deleted');
+            toast.success('The user ' + '"' + userToDelete.name.first + ' ' + userToDelete.name.last + '"' + ' was deleted');
             setDeleteUserDialog(false);
             getUsersFromServer();
         }).catch(error => {
@@ -98,9 +97,14 @@ export function CRMAdminPage() {
             {isDeleteUserDialog && <>
                 <div className={"modal bg-opacity-50 bg-dark"} id={'myModal'}>
                     <div className={"modal-dialog-centered"}>
+
                         <div className={"modal-content p-5"}>
+                            <div className={'text-center mb-5'}>
+                                <MdQuestionMark size={40}/>
+                            </div>
+
                             <div>
-                                <h6>Are you sure you want to delete the following user?</h6>
+                                <h5 className={'mb-3'}>Are you sure you want to delete the following user?</h5>
                                 <p className={'m-0'}>{'Name: '+ userToDelete.name.first + ' ' + userToDelete.name.last}</p>
                                 <p>Email: {userToDelete.email}</p>
                             </div>

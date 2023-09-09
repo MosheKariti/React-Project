@@ -2,14 +2,14 @@ import React from "react";
 import Box from '@mui/material/Box';
 import NavItem from "./NavItem";
 import {LoggedInUser} from "../Main/LoggedInUser";
-import {adminMenu, businessMenu, guestMenu, simpleMenu} from "../../Services/Menu/MenusHandler";
+import {adminMenu, businessMenu, guestMenu} from "../../Services/Menu/MenusHandler";
 
 function LeftNavigation({path, setPath, menu, setMenu, loggedInUser, setLoggedInUser}) {
     if (loggedInUser) {
-        if (loggedInUser.isBusiness) {
-            setMenu(businessMenu);
-        } else if (loggedInUser.isAdmin) {
+        if (loggedInUser.isAdmin) {
             setMenu(adminMenu);
+        } else if (loggedInUser.isBusiness) {
+            setMenu(businessMenu);
         }
     } else {
         setMenu(guestMenu)

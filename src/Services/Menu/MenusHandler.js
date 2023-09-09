@@ -1,5 +1,5 @@
 import React from "react";
-import ROUTES from "../../RouterModel";
+import ROUTES from "../../Components/Router/RouterModel";
 import { FcAbout } from "react-icons/fc";
 import {BiSolidRegistered } from "react-icons/bi";
 import { PiSignInFill } from "react-icons/pi";
@@ -57,4 +57,4 @@ const crm = {
 export const guestMenu = [home,cards,about,registration,signIn];
 export const simpleMenu = [home,favCards,cards,about,signOut];
 export const businessMenu = [home,cards,myCards,favCards,about,signOut];
-export const adminMenu = [home,crm,cards,favCards,signOut];
+export const adminMenu = [home,cards,myCards,favCards,about,crm,signOut];
